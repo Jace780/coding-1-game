@@ -20,3 +20,46 @@ Major Game Elements:
 
 
 Gameplay Process:
+
+Rant:
+# cool_game
+#game is bossfight, split into 3 phases. Between each phase player can upgrade himself. each phase introduces 1 new attack, and deals p #damage, where p is phase. so phase 1 has 1 attack and does 1 damage, phase 2 has 2 attacks and does 2 damage, etc.
+
+#attak ideas: radius of bullets, lazers, and spike attack.
+
+for rooms, imma premake like six, and assign each a ID(probably variable via letters A-F),and  chuck them into a list. The player will randomly generate a room from the list when they leave the room. 
+
+player will start with 5 health
+    this way player will have to either upgrade health to be tanky, OR damge to be strong. Doing both will lead to failure, because I love the idea of jack of all trades master of none. 
+
+gear stats will be the following eqution: B+P(xU), or base + phase x upgrade
+
+enemies stats for f(x)=(bxP)+S, or then enemies will be g(x)=b+p +S
+
+melee, a ranged, support. 
+
+should heal affect all entities, or select entities in range? 
+
+melee: runs towards u, and swings. hp = f(x), damage b g(x)
+
+Ranged: runs away from you, and fires 1 arrow every 3 seconds. hp = g(x), dmg=f(x)
+
+Support: every 2 seconds will either heal 1 nearby ally by 5 points, Supports will perma have Php. 
+
+after each boss phase, the boss will leave, and the player will be allowed to upgrade 1 of 2 things:
+Health, Upgrade 
+if Health is upgraded, you full heal. if already full healh, u gain 1 more max health
+if upgrade is upgraded all U varaibles are increased by 1. 
+
+Boss:
+Health will be created so P1 is very difficult, P2 is somewhat difficult, and P3 is easy. 
+
+boss damage will be P+ATK#
+
+structure for jackson:
+
+Goal: Beat the Boss.
+Win: beat it's third phase
+Loose: Die.
+
+6x6, might change to 7x7 of tpp sa
