@@ -11,55 +11,67 @@ Part I: Planning & Design (15 pts)
 * Outline expansion ideas
 
 Game Idea:
-
+Dungeon Explorer. Explore a randomly generated Hallway.
+At end of Hallay(string of three rooms), spawn boss.
+Once Phase 1 defeated, boss leaves, and an upgrage token spawns. 
+Then repeat, till phase 3 boss defeated.
 
 Game Rules:
 
+board is 6x6.
+
+Player clear room, 
+player heal
+every phase completed increases the next phase.
 
 Major Game Elements:
-
-
-Gameplay Process:
-
-Rant:
-# cool_game
-#game is bossfight, split into 3 phases. Between each phase player can upgrade himself. each phase introduces 1 new attack, and deals p #damage, where p is phase. so phase 1 has 1 attack and does 1 damage, phase 2 has 2 attacks and does 2 damage, etc.
-
-#attak ideas: radius of bullets, lazers, and spike attack.
-
-for rooms, imma premake like six, and assign each a ID(probably variable via letters A-F),and  chuck them into a list. The player will randomly generate a room from the list when they leave the room. 
+Random list of rooms, id'd into a list of six. 
+probably variable via letters A-F),and  chuck them into a list. 
+The player will randomly generate a room from the list when they heal. 
 
 player will start with 5 health
-    this way player will have to either upgrade health to be tanky, OR damge to be strong. Doing both will lead to failure, because I love the idea of jack of all trades master of none. 
+    this way player will have to either upgrade health to be tanky, OR damge to be strong. Doing both will lead to failure, because the idea of jack of all trades master of none. 
 
 gear stats will be the following eqution: B+P(xU), or base + phase x upgrade
 
 enemies stats for f(x)=(bxP)+S, or then enemies will be g(x)=b+p +S
 
-melee, a ranged, support. 
+Base is always 1.
 
-should heal affect all entities, or select entities in range? 
+Three enemies: 
+   melee: runs towards u, and swings. hp = f(x), damage b g(x).
+    entity will move to u one square at a time, and will swing if u are in 1 square range.
+    melee ai: chase player. 
 
-melee: runs towards u, and swings. hp = f(x), damage b g(x)
+    Ranged: runs away from you, and fires 1 bullet every 3 seconds. hp = g(x), dmg=f(x)
+    Will move 2 squares away from u. will shoot if u are 4 squares away. bullet isnt bullet speed. Arrow is lazer speed. 
+    So if Ranged shoots, whole row, or coloumn(depends on ranger facing) will become lazered. 
+    movement ai: avoid player.
 
-Ranged: runs away from you, and fires 1 arrow every 3 seconds. hp = g(x), dmg=f(x)
+Support: will heal 1 nearby ally by 5 points, Supports will perma have P hp.
+    range is 4. 
+    if heals, will wait 2 seconds before healing again
+    heal is: if enemy entity in range, then heal them. 
+    movement ai: follow ranged.
 
-Support: every 2 seconds will either heal 1 nearby ally by 5 points, Supports will perma have Php. 
+boss will have P attacks. P1 spike attack, P2 atk is lazers, and P3 atk is radius of bullets.
 
-after each boss phase, the boss will leave, and the player will be allowed to upgrade 1 of 2 things:
-Health, Upgrade 
-if Health is upgraded, you full heal. if already full healh, u gain 1 more max health
-if upgrade is upgraded all U varaibles are increased by 1. 
+Gameplay Process:
+start in room 1, clear, move into room 2. 
+repeat but room 4 is where boss resides.
+each room has P+1 enemies. 
+so lvls 1-3 will have 2 enemies, where levels 8-11 will have 4 enemies. 
+upon defeat of boss, that P will increase by 1. 
+at end of each phase an upgrade orb will be dropped.
+upon pickup plyer will press 1 or 2. 1 for health, 2 for upgrade. 
 
-Boss:
-Health will be created so P1 is very difficult, P2 is somewhat difficult, and P3 is easy. 
+after clearing each room u will get a heal.
+heal math is 4-p.
 
-boss damage will be P+ATK#
+Scoring:
 
-structure for jackson:
+each room cleared adds score.
+score is (1 x phase + over heal).
+overheal: anytime a player would heal more than they have, instead add 1 to score. 
 
-Goal: Beat the Boss.
-Win: beat it's third phase
-Loose: Die.
-
-6x6, might change to 7x7 of tpp sa
+so the worst u can do on room 1 is 1 point, and the best is 4. 
