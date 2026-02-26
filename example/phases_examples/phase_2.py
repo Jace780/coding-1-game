@@ -11,13 +11,13 @@ game_data = {
     'width': 5,
     'height': 5,
     'player': {"x": 0, "y": 0, "score": 0, "energy": 10, "max_energy": 10},
-    'eagle_pos': {"x": 4, "y": 4},
-    'collectibles': [
-        {"x": 2, "y": 1, "collected": False},
-    ],
-    'obstacles': [
+    # 'eagle_pos': {"x": 4, "y": 4},
+    'rocks': [
         {"x": 1, "y": 2},
         {"x": 3, "y": 1}
+    ],
+    'guns':[
+        
     ],
 
     # ASCII icons
