@@ -37,7 +37,7 @@ game_data = {
         # {"x": 6, "y": 6},
 
     ],
-    'guns':[
+    'passive_face':[
         
     ],
 
@@ -45,7 +45,7 @@ game_data = {
     'turtle': "\U0001F422",
     'rock': "\U0001FAA8 ",
     'leaf': "\U0001F343",
-    'empty': "  "
+    'passive_face': "\U0001F636 "
 }
 
 for i in range(7):
