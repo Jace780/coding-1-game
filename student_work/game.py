@@ -10,13 +10,32 @@
 import curses
 
 game_data = {
-    'width': 5,
-    'height': 5,
-    'player': {"x": 0, "y": 0, "score": 0, "energy": 10, "max_energy": 10},
-    # 'eagle_pos': {"x": 4, "y": 4},
+    'width': 7,
+    'height': 7,
+    'player': {"x": 3, "y": 3, "score": 0, "energy": 10, "max_energy": 10},
     'rocks': [
-        {"x": 1, "y": 2},
-        {"x": 3, "y": 1}
+        # {"x": 0, "y": 0},
+        # {"x": 0, "y": 1},
+        # {"x": 0, "y": 2},
+        # {"x": 0, "y": 3},
+        # {"x": 0, "y": 4},
+        # {"x": 0, "y": 5},
+        # {"x": 0, "y": 6},
+        # {"x": 0, "y": 7},
+        # {"x": 1, "y": 0},
+        # {"x": 2, "y": 0},
+        # {"x": 3, "y": 0},
+        # {"x": 4, "y": 0},
+        # {"x": 5, "y": 0},
+        # {"x": 6, "y": 0},
+        # {"x": 7, "y": 0},
+        # {"x": 1, "y": 1},
+        # {"x": 2, "y": 2},
+        # {"x": 3, "y": 3},
+        # {"x": 4, "y": 4},
+        # {"x": 5, "y": 5},
+        # {"x": 6, "y": 6},
+
     ],
     'guns':[
         
@@ -24,11 +43,16 @@ game_data = {
 
     # ASCII icons
     'turtle': "\U0001F422",
-    'eagle_icon': "\U0001F985",
-    'obstacle': "\U0001FAA8 ",
+    'rock': "\U0001FAA8 ",
     'leaf': "\U0001F343",
     'empty': "  "
 }
+
+for i in range(7):
+    x = i
+    for i in range(7):
+        y = i
+        game_data['rocks'].append({'x':x,'y':y})
 
 def draw_board(stdscr):
     curses.start_color()
@@ -42,15 +66,9 @@ def draw_board(stdscr):
             # Player
             if x == game_data['player']['x'] and y == game_data['player']['y']:
                 row += game_data['turtle']
-            # Eagle
-            elif x == game_data['eagle_pos']['x'] and y == game_data['eagle_pos']['y']:
-                row += game_data['eagle_icon']
             # Obstacles
-            elif any(o['x'] == x and o['y'] == y for o in game_data['obstacles']):
-                row += game_data['obstacle']
-            # Collectibles
-            elif any(c['x'] == x and c['y'] == y and not c['collected'] for c in game_data['collectibles']):
-                row += game_data['leaf']
+            elif any(o['x'] == x and o['y'] == y for o in game_data['rocks']):
+                row += game_data['rock']
             else:
                 row += game_data['empty']
         stdscr.addstr(y, 0, row, curses.color_pair(1))
@@ -59,3 +77,4 @@ def draw_board(stdscr):
     stdscr.getkey()  # pause so player can see board
 
 curses.wrapper(draw_board)
+
