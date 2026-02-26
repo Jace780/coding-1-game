@@ -11,10 +11,12 @@ Part I: Planning & Design (15 pts)
 * Outline expansion ideas
 
 Game Idea:
-
+Player is in a 7x7 area with the outer ring being a set of faces that fire lasers. The remaining 5x5 area will be used to dodge the 
+lasers by hiding behind rocks that are generated in the room.
 
 Game Rules:
-
+The player must hide behind rocks to avoid being hit by lasers. If they are hit, they lose. As the player survives, the lasers will
+fire more frequently making it more difficult to stay alive.
 
 Scoring:
-
+After each laser blast that the player survives, they get a point.
