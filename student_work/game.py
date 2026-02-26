@@ -37,7 +37,7 @@ game_data = {
         # {"x": 6, "y": 6},
 
     ],
-    'passive_face':[
+    'passive_faces':[
         
     ],
 
@@ -69,6 +69,9 @@ def draw_board(stdscr):
             # Obstacles
             elif any(o['x'] == x and o['y'] == y for o in game_data['rocks']):
                 row += game_data['rock']
+            # Passive Faces
+            elif any(o['x'] == x and o['y'] == y for o in game_data['passive_faces']):
+                row += game_data['passive_face']
             else:
                 row += game_data['empty']
         stdscr.addstr(y, 0, row, curses.color_pair(1))
