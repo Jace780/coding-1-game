@@ -61,7 +61,11 @@ for i in range(4):
     game_data['rocks'].append({'x':a,'y':b})
     game_data['available_x'].remove(a)
     game_data['available_y'].remove(b)
+print(game_data['rocks'])
 
+for i in range(8):
+    if game_data['rocks'][i]['x'] == 3 and game_data['rocks'][i]['y'] == 3:
+        game_data['player']['y'] = 2
 
 def draw_board(stdscr):
     curses.start_color()
