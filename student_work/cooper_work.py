@@ -57,11 +57,9 @@ game_data = {
 for i in range(4):
     a = game_data['available_x'][random.randint(0,4-i)]
     b = game_data['available_y'][random.randint(0,4-i)]
-    print(f"setting rock as x:{a} and y:{b}")
     game_data['rocks'].append({'x':a,'y':b})
     game_data['available_x'].remove(a)
     game_data['available_y'].remove(b)
-print(game_data['rocks'])
 
 for i in range(8):
     if game_data['rocks'][i]['x'] == 3 and game_data['rocks'][i]['y'] == 3:
