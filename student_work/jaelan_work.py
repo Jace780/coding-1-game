@@ -1,51 +1,70 @@
+# Write your game here
+
 # The goals for this phase include:
-# - Implement player movement (I suggest W/A/S/D or arrow keys).
-# - Prevent the player from moving off the board or into obstacles.
-# - Track total moves (for high-score).
-# - Display the updated board after each move.
+# - Pick out some icons for your game
+# - Establish a starting position for each icon
+# - Pick a size for your playing space
+# - Print your playing space with starting position of each icon
 
 # To make this work, you may have to type this into the terminal --> pip install curses
 import curses
+import random
 
 game_data = {
     'width': 7,
     'height': 7,
     'player': {"x": 3, "y": 3, "score": 0, "energy": 10, "max_energy": 10},
     'rocks': [
-        # {"x": 0, "y": 0},
-        # {"x": 0, "y": 1},
-        # {"x": 0, "y": 2},
-        # {"x": 0, "y": 3},
-        # {"x": 0, "y": 4},
-        # {"x": 0, "y": 5},
-        # {"x": 0, "y": 6},
-        # {"x": 0, "y": 7},
-        # {"x": 1, "y": 0},
-        # {"x": 2, "y": 0},
-        # {"x": 3, "y": 0},
-        # {"x": 4, "y": 0},
-        # {"x": 5, "y": 0},
-        # {"x": 6, "y": 0},
-        # {"x": 7, "y": 0},
-        # {"x": 1, "y": 1},
-        # {"x": 2, "y": 2},
-        # {"x": 3, "y": 3},
-        # {"x": 4, "y": 4},
-        # {"x": 5, "y": 5},
-        # {"x": 6, "y": 6},
-
+        {"x": 0, "y": 0},
+        {"x": 0, "y": 6},
+        {"x": 6, "y": 0},
+        {"x": 6, "y": 6},
     ],
     'passive_faces':[
-        
+        {"x": 0, "y": 1},
+        {"x": 0, "y": 2},
+        {"x": 0, "y": 3},
+        {"x": 0, "y": 4},
+        {"x": 0, "y": 5},
+        {"x": 1, "y": 0},
+        {"x": 1, "y": 6},
+        {"x": 2, "y": 0},
+        {"x": 2, "y": 6},
+        {"x": 3, "y": 0},
+        {"x": 3, "y": 6},
+        {"x": 4, "y": 0},
+        {"x": 4, "y": 6},
+        {"x": 5, "y": 0},
+        {"x": 5, "y": 6},
+        {"x": 6, "y": 1},
+        {"x": 6, "y": 2},
+        {"x": 6, "y": 3},
+        {"x": 6, "y": 4},
+        {"x": 6, "y": 5},
     ],
+    'lazer_list':[],
+
+    'available_x': [1, 2, 3, 4, 5], 
+    'available_y': [1, 2, 3, 4, 5],
 
     # ASCII icons
     'turtle': "\U0001F422",
     'rock': "\U0001FAA8 ",
     'leaf': "\U0001F343",
-    'passive_face': "\U0001F636 ",
-    'empty' : "  "
+    'passive_face': "\U0001F636",
+    'empty': "  "
 }
+
+for i in range(4):
+    a = game_data['available_x'][random.randint(0,4-i)]
+    b = game_data['available_y'][random.randint(0,4-i)]
+    game_data['rocks'].append({'x':a,'y':b})
+    game_data['available_x'].remove(a)
+    game_data['available_y'].remove(b)
+
+for i in range(8):
+    if game_data['rocks'][i]['x'] == 3 and game_data['rocks'][i]['y'] == 3:
+        game_data['player']['y'] = 2
 
 def draw_board(stdscr):
     curses.start_color()
@@ -66,6 +85,9 @@ def draw_board(stdscr):
             # Passive Faces
             elif any(o['x'] == x and o['y'] == y for o in game_data['passive_faces']):
                 row += game_data['passive_face']
+            elif any(o['x'] == x and o['y'] == y for o in game_data['lazer_list']):
+                row -= game_data['passive_face']
+                row += game_data['leaf']
             else:
                 row += game_data['empty']
         stdscr.addstr(y, 0, row, curses.color_pair(1))
@@ -79,6 +101,7 @@ def draw_board(stdscr):
     stdscr.refresh()
 
 def move_player(key):
+
     x = game_data['player']['x']
     y = game_data['player']['y']
 
@@ -87,7 +110,7 @@ def move_player(key):
 
     if key == "w" and y > 1:
         new_y -= 1
-    elif key == "s" and y < game_data['height'] - 2:
+    elif key ==  "s" and y < game_data['height'] - 2:
         new_y += 1
     elif key == "a" and x > 1:
         new_x -= 1
@@ -108,6 +131,15 @@ def move_player(key):
         game_data['player']['score'] += 1
     #when we go to fire lazer, we put it into stages, as lazer with variable. 
     #Then when its done, and we've survived, we reset to zero and scores update
+def lazer_fire():
+    lazer=1
+    
+    for i in range (1,4):
+        game_data['lazer_list'].append(random.choice(game_data['passive_faces']))
+        # if (o['x'] == x and o['y'] == y for o in lazer_list):
+        #         row += game_data['leaf']
+    lazer = 2
+    
 
 def main(stdscr):
     curses.curs_set(0)
@@ -127,5 +159,6 @@ def main(stdscr):
 
             move_player(key)
             draw_board(stdscr)
+            lazer_fire()
 
 curses.wrapper(main)
