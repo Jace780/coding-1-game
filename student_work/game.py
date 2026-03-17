@@ -69,6 +69,7 @@ def draw_board(stdscr):
     curses.start_color()
     curses.use_default_colors()
     curses.init_pair(1, curses.COLOR_WHITE, -1)
+    player_hit=False
 
     stdscr.clear()
     for y in range(game_data['height']):
@@ -95,6 +96,7 @@ def draw_board(stdscr):
                   "Move with W/A/S/D, Q to quit",
                   curses.color_pair(1))
     stdscr.refresh()
+    
 
 def move_player(key):
     x = game_data['player']['x']
@@ -127,6 +129,9 @@ def move_player(key):
     #when we go to fire lazer, we put it into stages, as lazer with variable. 
     #Then when its done, and we've survived, we reset to zero and scores update
 
+    # def lazer_logic():
+    #     if ['player']
+
 def main(stdscr):
     curses.curs_set(0)
     stdscr.nodelay(True)
@@ -142,6 +147,8 @@ def main(stdscr):
         if key:
             if key.lower() == "q":
                 break
+            # elif player_hit == True:
+            #     break
 
             move_player(key)
             draw_board(stdscr)

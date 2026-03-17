@@ -50,8 +50,9 @@ game_data = {
     # ASCII icons
     'turtle': "\U0001F422",
     'rock': "\U0001FAA8 ",
-    'leaf': "\U0001F343",
     'passive_face': "\U0001F636",
+    'firing_face': "\U0001F479",
+    'laser': "\U0001F7E5",
     'empty': "  "
 }
 
