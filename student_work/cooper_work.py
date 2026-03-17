@@ -44,8 +44,12 @@ game_data = {
         {"x": 6, "y": 5},
     ],
 
+    'firing_faces': [
+    ],
+
     'available_x': [1, 2, 3, 4, 5], 
     'available_y': [1, 2, 3, 4, 5],
+    'charging_numbers': [0, 5, 10, 15],
 
     # ASCII icons
     'turtle': "\U0001F422",
@@ -86,6 +90,8 @@ def draw_board(stdscr):
             # Passive Faces
             elif any(o['x'] == x and o['y'] == y for o in game_data['passive_faces']):
                 row += game_data['passive_face']
+            elif any(o['x'] == x and o['y'] == y for o in game_data['firing_faces']):
+                row += game_data['firing_face']
             else:
                 row += game_data['empty']
         stdscr.addstr(y, 0, row, curses.color_pair(1))
@@ -132,6 +138,7 @@ def move_player(key):
 def main(stdscr):
     curses.curs_set(0)
     stdscr.nodelay(True)
+    times_ran = 20
 
     draw_board(stdscr)
 
@@ -147,7 +154,25 @@ def main(stdscr):
 
             move_player(key)
             draw_board(stdscr)
+            time.sleep(0.2)
+            # times_ran += 1
+            # if times_ran == 20:
+            #     laser_fire()
+            #     times_ran = 0
 
-# def laser_fire: 
+def laser_fire():
+    set_firing_row = game_data['charging_numbers'][random.randint(0,3)]
+    for i in range(5):
+        game_data['firing_faces'].append(game_data['passive_faces'].pop(set_firing_row))
+    time.sleep(2)
+    for i in range(5):
+        game_data['passive_faces'].insert(set_firing_row+i, game_data['firing_faces'].pop)
+    print(game_data['passive_faces'])
+    print(game_data['firing_faces'])
+
+
+    
+
 
 curses.wrapper(main)
+laser_fire()
