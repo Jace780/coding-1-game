@@ -9,6 +9,7 @@
 # To make this work, you may have to type this into the terminal --> pip install curses
 import curses
 import random
+import time
 
 game_data = {
     'width': 7,
@@ -27,14 +28,14 @@ game_data = {
         {"x": 0, "y": 4},
         {"x": 0, "y": 5},
         {"x": 1, "y": 0},
-        {"x": 1, "y": 6},
         {"x": 2, "y": 0},
-        {"x": 2, "y": 6},
         {"x": 3, "y": 0},
-        {"x": 3, "y": 6},
         {"x": 4, "y": 0},
-        {"x": 4, "y": 6},
         {"x": 5, "y": 0},
+        {"x": 1, "y": 6},
+        {"x": 2, "y": 6},
+        {"x": 3, "y": 6},
+        {"x": 4, "y": 6},
         {"x": 5, "y": 6},
         {"x": 6, "y": 1},
         {"x": 6, "y": 2},
@@ -43,14 +44,19 @@ game_data = {
         {"x": 6, "y": 5},
     ],
 
+    'firing_faces': [
+    ],
+
     'available_x': [1, 2, 3, 4, 5], 
     'available_y': [1, 2, 3, 4, 5],
+    'charging_numbers': [0, 5, 10, 15],
 
     # ASCII icons
     'turtle': "\U0001F422",
     'rock': "\U0001FAA8 ",
-    'leaf': "\U0001F343",
     'passive_face': "\U0001F636",
+    'firing_face': "\U0001F479",
+    'laser': "\U0001F7E5",
     'empty': "  "
 }
 
@@ -69,7 +75,6 @@ def draw_board(stdscr):
     curses.start_color()
     curses.use_default_colors()
     curses.init_pair(1, curses.COLOR_WHITE, -1)
-    player_hit=False
 
     stdscr.clear()
     for y in range(game_data['height']):
@@ -81,10 +86,12 @@ def draw_board(stdscr):
             # Obstacles
             elif any(o['x'] == x and o['y'] == y for o in game_data['rocks']):
                 row += game_data['rock']
-            # Collectibles
             # Passive Faces
             elif any(o['x'] == x and o['y'] == y for o in game_data['passive_faces']):
                 row += game_data['passive_face']
+            # Firing Faces
+            elif any(o['x'] == x and o['y'] == y for o in game_data['firing_faces']):
+                row += game_data['firing_face']
             else:
                 row += game_data['empty']
         stdscr.addstr(y, 0, row, curses.color_pair(1))
@@ -96,7 +103,6 @@ def draw_board(stdscr):
                   "Move with W/A/S/D, Q to quit",
                   curses.color_pair(1))
     stdscr.refresh()
-    
 
 def move_player(key):
     x = game_data['player']['x']
@@ -129,12 +135,18 @@ def move_player(key):
     #when we go to fire lazer, we put it into stages, as lazer with variable. 
     #Then when its done, and we've survived, we reset to zero and scores update
 
-    # def lazer_logic():
-    #     if ['player']
+def laser_fire():
+    set_firing_row = game_data['charging_numbers'][random.randint(0,3)]
+    for i in range(5):
+        game_data['firing_faces'].append(game_data['passive_faces'].pop(set_firing_row))
+    # time.sleep(1)
+    for i in range(5):
+        game_data['passive_faces'].insert(set_firing_row+i, game_data['firing_faces'].pop(0))
 
 def main(stdscr):
     curses.curs_set(0)
     stdscr.nodelay(True)
+    times_ran = 10
 
     draw_board(stdscr)
 
@@ -147,10 +159,15 @@ def main(stdscr):
         if key:
             if key.lower() == "q":
                 break
-            # elif player_hit == True:
-            #     break
 
             move_player(key)
             draw_board(stdscr)
+            time.sleep(0.2)
+            times_ran += 1
+            if times_ran == 20:
+                laser_fire()
+                times_ran = 0
+
+    
 
 curses.wrapper(main)
