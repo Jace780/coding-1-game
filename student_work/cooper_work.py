@@ -22,34 +22,36 @@ game_data = {
         {"x": 6, "y": 6},
     ],
     'passive_faces':[
-        {"x": 0, "y": 1},
-        {"x": 0, "y": 2},
-        {"x": 0, "y": 3},
-        {"x": 0, "y": 4},
-        {"x": 0, "y": 5},
         {"x": 1, "y": 0},
         {"x": 2, "y": 0},
         {"x": 3, "y": 0},
         {"x": 4, "y": 0},
         {"x": 5, "y": 0},
-        {"x": 1, "y": 6},
-        {"x": 2, "y": 6},
-        {"x": 3, "y": 6},
-        {"x": 4, "y": 6},
-        {"x": 5, "y": 6},
         {"x": 6, "y": 1},
         {"x": 6, "y": 2},
         {"x": 6, "y": 3},
         {"x": 6, "y": 4},
         {"x": 6, "y": 5},
+        {"x": 1, "y": 6},
+        {"x": 2, "y": 6},
+        {"x": 3, "y": 6},
+        {"x": 4, "y": 6},
+        {"x": 5, "y": 6},
+        {"x": 0, "y": 1},
+        {"x": 0, "y": 2},
+        {"x": 0, "y": 3},
+        {"x": 0, "y": 4},
+        {"x": 0, "y": 5},
     ],
 
     'firing_faces': [
+
     ],
 
+    'currently_firing': 'N',
     'available_x': [1, 2, 3, 4, 5], 
     'available_y': [1, 2, 3, 4, 5],
-    'charging_numbers': [0, 5, 10, 15],
+    'directions': ['N', 'E', 'S', 'W'],
 
     # ASCII icons
     'turtle': "\U0001F422",
@@ -136,12 +138,11 @@ def move_player(key):
     #Then when its done, and we've survived, we reset to zero and scores update
 
 def laser_fire():
-    set_firing_row = game_data['charging_numbers'][random.randint(0,3)]
-    for i in range(5):
-        game_data['firing_faces'].append(game_data['passive_faces'].pop(set_firing_row))
-    # time.sleep(1)
-    for i in range(5):
-        game_data['passive_faces'].insert(set_firing_row+i, game_data['firing_faces'].pop(0))
+    set_firing_row = game_data['directions'][random.randint(0,3)]
+    return set_firing_row
+
+# def change_faces(): 
+
 
 def main(stdscr):
     curses.curs_set(0)
@@ -167,7 +168,5 @@ def main(stdscr):
             if times_ran == 20:
                 laser_fire()
                 times_ran = 0
-
-    
 
 curses.wrapper(main)
