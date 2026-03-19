@@ -28,14 +28,14 @@ game_data = {
         {"x": 0, "y": 4},
         {"x": 0, "y": 5},
         {"x": 1, "y": 0},
-        {"x": 1, "y": 6},
         {"x": 2, "y": 0},
-        {"x": 2, "y": 6},
         {"x": 3, "y": 0},
-        {"x": 3, "y": 6},
         {"x": 4, "y": 0},
-        {"x": 4, "y": 6},
         {"x": 5, "y": 0},
+        {"x": 1, "y": 6},
+        {"x": 2, "y": 6},
+        {"x": 3, "y": 6},
+        {"x": 4, "y": 6},
         {"x": 5, "y": 6},
         {"x": 6, "y": 1},
         {"x": 6, "y": 2},
@@ -86,10 +86,10 @@ def draw_board(stdscr):
             # Obstacles
             elif any(o['x'] == x and o['y'] == y for o in game_data['rocks']):
                 row += game_data['rock']
-            # Collectibles
             # Passive Faces
             elif any(o['x'] == x and o['y'] == y for o in game_data['passive_faces']):
                 row += game_data['passive_face']
+            # Firing Faces
             elif any(o['x'] == x and o['y'] == y for o in game_data['firing_faces']):
                 row += game_data['firing_face']
             else:
@@ -135,10 +135,18 @@ def move_player(key):
     #when we go to fire lazer, we put it into stages, as lazer with variable. 
     #Then when its done, and we've survived, we reset to zero and scores update
 
+def laser_fire():
+    set_firing_row = game_data['charging_numbers'][random.randint(0,3)]
+    for i in range(5):
+        game_data['firing_faces'].append(game_data['passive_faces'].pop(set_firing_row))
+    # time.sleep(1)
+    for i in range(5):
+        game_data['passive_faces'].insert(set_firing_row+i, game_data['firing_faces'].pop(0))
+
 def main(stdscr):
     curses.curs_set(0)
     stdscr.nodelay(True)
-    times_ran = 20
+    times_ran = 10
 
     draw_board(stdscr)
 
@@ -155,24 +163,11 @@ def main(stdscr):
             move_player(key)
             draw_board(stdscr)
             time.sleep(0.2)
-            # times_ran += 1
-            # if times_ran == 20:
-            #     laser_fire()
-            #     times_ran = 0
-
-def laser_fire():
-    set_firing_row = game_data['charging_numbers'][random.randint(0,3)]
-    for i in range(5):
-        game_data['firing_faces'].append(game_data['passive_faces'].pop(set_firing_row))
-    time.sleep(2)
-    for i in range(5):
-        game_data['passive_faces'].insert(set_firing_row+i, game_data['firing_faces'].pop)
-    print(game_data['passive_faces'])
-    print(game_data['firing_faces'])
-
+            times_ran += 1
+            if times_ran == 20:
+                laser_fire()
+                times_ran = 0
 
     
 
-
 curses.wrapper(main)
-laser_fire()
